@@ -7,6 +7,10 @@ from enum import Enum as enum
 from sklearn.neighbors import KDTree as kdtree
 
 
+def isclose(a, b, rel_tol=1e-09, abs_tol=0.0):
+    return abs(a-b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
+
+
 class online_k_means:
     def __init__(self, k_target=30):
         self.state_list = enum('state', ['first','init', 'run'])
@@ -44,6 +48,11 @@ class online_k_means:
             self.state = self.state_list.init
         elif (self.state == self.state_list.init):
         # init
+            kd = kdtree(self.C, leaf_size=1)
+            d, ind = kd.query(v, k=1)
+            if isclose(d[0][0], 0.0):
+                return
+
             self.C = np.vstack((self.C, v))
             if (self._counter == (self.k  + 10 )):
                 self.state = self.state_list.run

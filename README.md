@@ -1,5 +1,5 @@
 
-Implementation of paper An Algorithm for Online K-Means Clustering
+Implementation of paper "An Algorithm for Online K-Means Clustering"
 
 
 Dateset download:
